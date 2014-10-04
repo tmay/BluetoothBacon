@@ -1,0 +1,48 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4+'
+    }
+}
+
+
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "tmay.bluetoothbacon"
+        minSdkVersion 19
+        targetSdkVersion 20
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+apt {
+    arguments {
+        logLevel 'info'
+        androidManifestFile variant.processResources.manifestFile
+        resourcePackageName android.defaultConfig.applicationId
+    }
+}
+
+String androidAnnotationsVersion = '3.1';
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    apt "org.androidannotations:androidannotations:${androidAnnotationsVersion}"
+    compile "org.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
+}

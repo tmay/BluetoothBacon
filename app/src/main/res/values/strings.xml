@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BluetoothBacon</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="lbl_device_address">Device Address: </string>
+    <string name="lbl_rssi">rssi: </string>
+    <string name="lbl_scan_for_devices">Scan for BLE Devices</string>
+    <string name="lbl_find_led_strip">Find Led Strip</string>
+    <string name="lbl_scan_for_beans">Scan for Light Blue Beans</string>
+    <string name="lbl_scan_for_beacons">Scan for Beacons</string>
+
+</resources>
