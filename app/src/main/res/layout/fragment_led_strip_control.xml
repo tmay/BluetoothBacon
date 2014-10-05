@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="0dp"
+    android:padding="0dp"
+    tools:context=".ledstrip.LedStripMainActivity_">
+
+    <GridView
+        android:id="@+id/color_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="40dp"
+        android:numColumns="6" android:layout_margin="20dp">
+
+    </GridView>
+</RelativeLayout>

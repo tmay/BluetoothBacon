@@ -1,5 +1,6 @@
 package tmay.bluetoothbacon.blescanner.views;
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
@@ -44,8 +45,24 @@ public class BleScannerItemView extends LinearLayout {
     }
 
     public void bind(BleScannerObject deviceInfo) {
-        deviceAddressText.setText(deviceAddressLabel+deviceInfo.device.getAddress());
-        deviceRssiText.setText(rssiLabel+deviceInfo.rssi);
+        String name = deviceInfo.device.getName();
+        String type = "Type: "+getDeviceType(deviceInfo.device.getType());
+
+        deviceAddressText.setText(name+"\n"+deviceInfo.device.getAddress()+"\n"+type);
+        deviceRssiText.setText(rssiLabel+" "+deviceInfo.rssi);
         iconImage.setImageDrawable(iconDrawable);
+    }
+
+    private String getDeviceType(int type) {
+        switch (type) {
+            case BluetoothDevice.DEVICE_TYPE_CLASSIC:
+                return "Classic";
+            case BluetoothDevice.DEVICE_TYPE_DUAL:
+                return "Dual";
+            case BluetoothDevice.DEVICE_TYPE_LE:
+                return "BLE";
+            default:
+                return "Unknown";
+        }
     }
 }

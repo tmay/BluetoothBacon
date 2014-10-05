@@ -7,7 +7,7 @@ import org.androidannotations.annotations.EBean;
  */
 @EBean(scope = EBean.Scope.Singleton)
 public class LedstripFrameManager {
-    private byte[] buildMessageFrame(byte[] message) {
+    public byte[] buildMessageFrame(byte[] message) {
         byte[] escaped = new byte[16];
         int escapedCount = 0;
         escaped[escapedCount++] = 0x12;
