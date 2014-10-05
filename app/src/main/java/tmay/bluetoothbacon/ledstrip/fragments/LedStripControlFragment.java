@@ -9,6 +9,8 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 
@@ -65,8 +67,16 @@ public class LedStripControlFragment extends Fragment {
         gridLayout.setAdapter(adapter);
         adapter.setColors(colorUtility.getColorArray());
 
+        gridLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                EditColorFragment.newInstance(adapter.getColor(i)).show(getFragmentManager(), "editcolor");
+            }
+        });
+
         this.device = (BluetoothDevice) this.getArguments().get("device");
         gatt = device.connectGatt(getActivity(), true, gattCallback);
+
     }
 
     @Override

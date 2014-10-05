@@ -8,6 +8,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 
 import tmay.bluetoothbacon.R;
+import tmay.bluetoothbacon.ledstrip.fragments.EditColorFragment;
 import tmay.bluetoothbacon.ledstrip.fragments.LedStripControlFragment;
 
 /**
@@ -24,5 +25,7 @@ public class LedStripMainActivity extends Activity {
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, new LedStripControlFragment().newInstance(device))
                 .commit();
+
+
     }
 }
