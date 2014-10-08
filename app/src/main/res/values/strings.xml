@@ -10,5 +10,6 @@
     <string name="lbl_find_led_strip">Find Led Strip</string>
     <string name="lbl_scan_for_beans">Scan for Light Blue Beans</string>
     <string name="lbl_scan_for_beacons">Scan for Beacons</string>
+    <string name="lbl_range_beacon">Start ranging a beacon</string>
 
 </resources>

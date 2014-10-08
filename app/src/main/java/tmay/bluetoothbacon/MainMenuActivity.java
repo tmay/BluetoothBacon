@@ -10,6 +10,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 
 import tmay.bluetoothbacon.beacons.MainBeaconActivity_;
+import tmay.bluetoothbacon.beacons.RangeBeaconActivity;
+import tmay.bluetoothbacon.beacons.RangeBeaconActivity_;
 import tmay.bluetoothbacon.blescanner.BleScannerActivity;
 import tmay.bluetoothbacon.blescanner.BleScannerActivity_;
 import tmay.bluetoothbacon.blescanner.fragments.BleScannerFragment;
@@ -59,6 +61,12 @@ public class MainMenuActivity extends Activity {
     @Click(R.id.btn_scan_beacons)
     void onScanForBeacons() {
         MainBeaconActivity_.intent(this)
+                .start();
+    }
+
+    @Click(R.id.btn_range_beacons)
+    void onRangeForBeacons() {
+        RangeBeaconActivity_.intent(this)
                 .start();
     }
 }

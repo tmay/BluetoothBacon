@@ -2,30 +2,28 @@ package tmay.bluetoothbacon.beacons;
 
 import android.app.Activity;
 import android.os.RemoteException;
-import android.util.Log;
 import android.widget.TextView;
 
+import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
-import org.altbeacon.beacon.MonitorNotifier;
+import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.Collection;
+
 import tmay.bluetoothbacon.R;
-import tmay.bluetoothbacon.beacons.fragments.BeaconDetectorFragment;
 
 /**
- * Created by Terry on 10/5/14.
+ * Created by Terry on 10/7/14.
  */
 @EActivity(R.layout.activity_main_beacon)
-public class MainBeaconActivity extends Activity  implements BeaconConsumer {
-    public static final String TAG = "main_beacons";
-
-
+public class RangeBeaconActivity extends Activity implements BeaconConsumer {
     private BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
 
     @ViewById(R.id.txt_beacon_region)
@@ -46,30 +44,24 @@ public class MainBeaconActivity extends Activity  implements BeaconConsumer {
 
     @Override
     public void onBeaconServiceConnect() {
-        beaconManager.setMonitorNotifier(new MonitorNotifier() {
+        beaconManager.setRangeNotifier(new RangeNotifier() {
             @Override
-            public void didEnterRegion(Region region) {
-                updateText("Entered: " + region.getUniqueId());
-            }
-
-            @Override
-            public void didExitRegion(Region region) {
-                updateText("Exited: " + region.getUniqueId());
-            }
-
-            @Override
-            public void didDetermineStateForRegion(int i, Region region) {
-                updateText("I have just switched from seeing/not seeing beacons:");
+            public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
+                if (beacons.size() > 0) {
+                    updateText(beacons.iterator().next().getDistance());
+                }
             }
         });
 
         try {
-            beaconManager.startMonitoringBeaconsInRegion(new Region("Here!", null, null, null));
-        } catch (RemoteException e) {   }
+            beaconManager.startRangingBeaconsInRegion(new Region("here", null, null, null));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @UiThread
-    void updateText(String message) {
-        txtRegion.setText(message);
+    void updateText(double message) {
+        txtRegion.setText(String.format("%.2f",message)+" meters");
     }
 }
