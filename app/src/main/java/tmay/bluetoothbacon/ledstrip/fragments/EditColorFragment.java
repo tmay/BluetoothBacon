@@ -32,6 +32,10 @@ public class EditColorFragment extends DialogFragment {
         return fragment;
     }
 
+    public interface OnColorAdjustListener {
+        public void onColorChanged(int color);
+    }
+
     @Bean
     ColorUtility colorUtility;
 
@@ -40,6 +44,12 @@ public class EditColorFragment extends DialogFragment {
 
     @ViewById(R.id.slider_adjust)
     SeekBar slider;
+
+    public OnColorAdjustListener listener;
+
+    public void setColorAdjustListener(OnColorAdjustListener listener) {
+       this.listener = listener;
+    }
 
     @AfterViews
     void onAfterViews() {
@@ -51,6 +61,8 @@ public class EditColorFragment extends DialogFragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 colorSwatch.setBackgroundColor(colorUtility.wheel(i));
+                if (listener != null)
+                    listener.onColorChanged(i);
             }
 
             @Override

@@ -19,8 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".blescanner.BleScannerActivity_"/>
-        <activity android:name=".ledstrip.LedStripMainActivity_"/>
+        <activity android:name=".blescanner.BleScannerActivity_" android:screenOrientation="portrait"/>
+        <activity android:name=".ledstrip.LedStripMainActivity_" android:screenOrientation="portrait"/>
+        <activity android:name=".beacons.MainBeaconActivity_" android:screenOrientation="portrait"/>
+        <activity android:name=".lightbluebean.LightBlueBeanMain_" android:screenOrientation="portrait"/>
+        <service android:name=".ledstrip.services.StripControlService"/>
+        <service android:name=".blescanner.services.BleService"/>
+
+
     </application>
 
 </manifest>

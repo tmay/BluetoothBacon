@@ -9,12 +9,16 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothProfile;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridLayout;
 import android.widget.GridView;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -44,8 +48,6 @@ public class LedStripControlFragment extends Fragment {
         return fragment;
     }
 
-    @Bean
-    LedstripFrameManager frameManager;
 
     @Bean
     ColorUtility colorUtility;
@@ -62,8 +64,21 @@ public class LedStripControlFragment extends Fragment {
     private BluetoothGattCharacteristic serialRX;
     private int writeCount = 59;
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.add("Clear Strip").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                clearStrip();
+                return false;
+            }
+        });
+    }
+
     @AfterViews
     void onAfterViews() {
+        this.setHasOptionsMenu(true);
         gridLayout.setAdapter(adapter);
         adapter.setColors(colorUtility.getColorArray());
 
@@ -82,21 +97,22 @@ public class LedStripControlFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        clearStrip();
         gatt.disconnect();
     }
 
     private BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            super.onConnectionStateChange(gatt, status, newState);
-            if (newState == BluetoothProfile.STATE_CONNECTED) {
-                Log.i(TAG, "Connected to GATT server.");
-                Log.i(TAG, "Attempting to start service discovery:");
-                gatt.discoverServices();
-            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            @Override
+            public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+                super.onConnectionStateChange(gatt, status, newState);
+                if (newState == BluetoothProfile.STATE_CONNECTED) {
+                    Log.i(TAG, "Connected to GATT server.");
+                    Log.i(TAG, "Attempting to start service discovery:");
+                    gatt.discoverServices();
+                } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
 
+                }
             }
-        }
 
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
@@ -128,6 +144,8 @@ public class LedStripControlFragment extends Fragment {
             if (b[0] == 49 && writeCount > 0) {
                 writeCount--;
                 updateStrip();
+            } else if (b[0] == ((byte) 100)) {
+                Log.i("serial", "clear");
             }
         }
 
@@ -168,11 +186,17 @@ public class LedStripControlFragment extends Fragment {
 
 
     private void setPixel(int position, int color) {
-        Log.d("count", position+" "+color);
+        Log.d("serial", position+" "+color);
         byte[] pixel = {((byte)position), ((byte)color)};
-        serialTX.setValue(frameManager.buildMessageFrame(pixel));
+        serialTX.setValue(LedstripFrameManager.buildMessageFrame(pixel));
 
         gatt.writeCharacteristic(serialTX);
 
+    }
+
+    void clearStrip() {
+        byte[] command = {0x64, 0};
+        serialTX.setValue(LedstripFrameManager.buildMessageFrame(command));
+        gatt.writeCharacteristic(serialTX);
     }
 }

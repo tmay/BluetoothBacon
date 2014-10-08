@@ -4,6 +4,8 @@ import android.graphics.Color;
 
 import org.androidannotations.annotations.EBean;
 
+import java.util.Random;
+
 /**
  * Created by Terry on 10/5/14.
  */
@@ -14,6 +16,15 @@ public class ColorUtility {
         int[] colors = new int[60];
         for (int i = 0; i < 60; i++) {
             colors[i] = i*2;
+        }
+        return colors;
+    }
+
+    public int[] getRandomColorArray() {
+        int[] colors = new int[60];
+        Random randomGen = new Random();
+        for (int i = 0; i < 60; i++) {
+            colors[i] = randomGen.nextInt(255);
         }
         return colors;
     }

@@ -63,4 +63,13 @@ public class ColorGridAdapter extends BaseAdapter {
         this.colors = colors;
         notifyDataSetChanged();
     }
+
+    public void setColor(int position, int color) {
+        colors[position] = color;
+        notifyDataSetChanged();
+    }
+
+    public int[] getColors() {
+        return colors;
+    }
 }

@@ -46,6 +46,7 @@ public class BleScannerItemView extends LinearLayout {
 
     public void bind(BleScannerObject deviceInfo) {
         String name = deviceInfo.device.getName();
+        name = (name == null) ? "Unknown" : name;
         String type = "Type: "+getDeviceType(deviceInfo.device.getType());
 
         deviceAddressText.setText(name+"\n"+deviceInfo.device.getAddress()+"\n"+type);

@@ -9,11 +9,13 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 
+import tmay.bluetoothbacon.beacons.MainBeaconActivity_;
 import tmay.bluetoothbacon.blescanner.BleScannerActivity;
 import tmay.bluetoothbacon.blescanner.BleScannerActivity_;
 import tmay.bluetoothbacon.blescanner.fragments.BleScannerFragment;
 import tmay.bluetoothbacon.ledstrip.LedStripMainActivity_;
 import tmay.bluetoothbacon.ledstrip.util.RedBearServiceUUID;
+import tmay.bluetoothbacon.lightbluebean.LightBlueBeanMain_;
 
 
 @EActivity(R.layout.activity_main_menu)
@@ -39,7 +41,9 @@ public class MainMenuActivity extends Activity {
 
     @OnActivityResult(BLUETOOTH_DEVICE_SELECTION_RESULT)
     void onLedStripFound(Intent data) {
-        BluetoothDevice device = data.getParcelableExtra(BleScannerActivity.BLUETOOTH_DEVICE);
+        BluetoothDevice device = null;
+        if (data != null)
+          device = data.getParcelableExtra(BleScannerActivity.BLUETOOTH_DEVICE);
         if (device != null)
             LedStripMainActivity_.intent(this)
                     .device(device)
@@ -48,11 +52,13 @@ public class MainMenuActivity extends Activity {
 
     @Click(R.id.btn_light_blue)
     void onFindBeans() {
-
+        LightBlueBeanMain_.intent(this)
+                .start();
     }
 
     @Click(R.id.btn_scan_beacons)
     void onScanForBeacons() {
-
+        MainBeaconActivity_.intent(this)
+                .start();
     }
 }

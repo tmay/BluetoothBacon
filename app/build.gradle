@@ -10,6 +10,12 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+repositories {
+    jcenter()
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 android {
     compileSdkVersion 20
@@ -42,7 +48,12 @@ String androidAnnotationsVersion = '3.1';
 
 
 dependencies {
+    dependencies {
+        compile 'org.altbeacon:android-beacon-library:2+@aar'
+    }
     compile fileTree(dir: 'libs', include: ['*.jar'])
     apt "org.androidannotations:androidannotations:${androidAnnotationsVersion}"
     compile "org.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
+    //compile 'nl.littlerobots.bean:beanlib:0.9+'
+    compile project(':beanlib')
 }

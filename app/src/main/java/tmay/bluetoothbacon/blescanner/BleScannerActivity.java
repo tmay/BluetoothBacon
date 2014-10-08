@@ -14,6 +14,7 @@ import org.androidannotations.annotations.WindowFeature;
 import tmay.bluetoothbacon.MainMenuActivity;
 import tmay.bluetoothbacon.MainMenuActivity_;
 import tmay.bluetoothbacon.R;
+import tmay.bluetoothbacon.blescanner.fragments.BleDeviceFragment;
 import tmay.bluetoothbacon.blescanner.fragments.BleScannerFragment;
 
 /**
@@ -48,7 +49,10 @@ public class BleScannerActivity extends Activity implements BleScannerFragment.O
             setResult(MainMenuActivity.BLUETOOTH_DEVICE_SELECTION_RESULT, i);
             finish();
         } else {
-
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container, BleDeviceFragment.newInstance(device))
+                    .addToBackStack("ble_device")
+                    .commit();
         }
     }
 

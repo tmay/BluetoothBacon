@@ -66,12 +66,12 @@ public class BleScannerAdapter extends BaseAdapter {
             items.add(new BleScannerObject(device, rssi));
             notifyDataSetChanged();
         } else {
-            int index = BleScannerObject.findDeviceIndex(device, items);
-            BleScannerObject target = items.get(index);
-            if (rssi != target.rssi) {
-                target.rssi = rssi;
-                notifyDataSetChanged();
-            }
+//            int index = BleScannerObject.findDeviceIndex(device, items);
+//            BleScannerObject target = items.get(index);
+//            if (rssi != target.rssi) {
+//                target.rssi = rssi;
+//                notifyDataSetChanged();
+//            }
         }
     }
 }
